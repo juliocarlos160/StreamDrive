@@ -1,5 +1,10 @@
 name: Build APK
 
+# Builds the StreamDrive APK on every push (or manually from the Actions tab).
+# With the KEYSTORE_BASE64 and KEYSTORE_PASSWORD secrets set, it builds a release APK signed
+# with your personal key, so each new version installs over the previous one.
+# Without them, it falls back to a debug APK ("StreamDrive Dev").
+
 on:
   push:
   workflow_dispatch:
@@ -19,10 +24,39 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
+      - name: Decide build type
+        id: mode
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "variant=release" >> "$GITHUB_OUTPUT"
+          else
+            echo "variant=debug" >> "$GITHUB_OUTPUT"
+            echo "::warning::Signing secrets not set; building a debug APK instead of a signed release."
+          fi
+
+      - name: Restore signing key
+        if: steps.mode.outputs.variant == 'release'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+
+      - name: Build signed release APK
+        if: steps.mode.outputs.variant == 'release'
+        env:
+          RELEASE_STORE_FILE: ${{ runner.temp }}/release.jks
+          RELEASE_STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: streamdrive
+        run: ./gradlew assembleRelease --stacktrace
+
       - name: Build debug APK
+        if: steps.mode.outputs.variant == 'debug'
         run: ./gradlew assembleDebug --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
-          name: AABrowser-dev-apk
-          path: app/build/renamedApks/debug/*.apk
+          name: StreamDrive-${{ steps.mode.outputs.variant }}-apk
+          path: app/build/renamedApks/${{ steps.mode.outputs.variant }}/*.apk
+          if-no-files-found: error

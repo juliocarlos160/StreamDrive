@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_credit">StreamDrive — baseado no AABrowser de Kododake</string>
     <string name="settings_audio_sync">Sincronia de áudio</string>
     <string name="settings_audio_sync_delay">Atraso do áudio</string>
     <string name="settings_audio_sync_description">O Android Auto mostra o vídeo na tela do carro depois do áudio. Atrase o áudio até a voz bater com o movimento da boca. Funciona no YouTube e na maioria dos sites, mas não em vídeos com DRM, como a Netflix.</string>
