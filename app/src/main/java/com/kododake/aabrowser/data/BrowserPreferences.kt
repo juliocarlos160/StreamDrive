@@ -128,4 +128,10 @@ object BrowserPreferences {
     // --- Web Engine & DRM ---
     fun isDrmL3EnforcerEnabled(context: Context): Boolean = WebPreferences.isDrmL3EnforcerEnabled(context)
     fun setDrmL3EnforcerEnabled(context: Context, enabled: Boolean) = WebPreferences.setDrmL3EnforcerEnabled(context, enabled)
+
+    // --- Audio/video sync ---
+    const val MIN_AUDIO_SYNC_DELAY_MS = WebPreferences.MIN_AUDIO_SYNC_DELAY_MS
+    const val MAX_AUDIO_SYNC_DELAY_MS = WebPreferences.MAX_AUDIO_SYNC_DELAY_MS
+    fun getAudioSyncDelayMs(context: Context): Int = WebPreferences.getAudioSyncDelayMs(context)
+    fun setAudioSyncDelayMs(context: Context, delayMs: Int) = WebPreferences.setAudioSyncDelayMs(context, delayMs)
 }

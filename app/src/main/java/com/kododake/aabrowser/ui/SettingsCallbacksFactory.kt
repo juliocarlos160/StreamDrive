@@ -22,6 +22,7 @@ import com.kododake.aabrowser.data.BrowserPreferences
 import com.kododake.aabrowser.settings.SettingsCallbacks
 import com.kododake.aabrowser.startpage.StartPageManager
 import com.kododake.aabrowser.tabs.TabManager
+import com.kododake.aabrowser.web.syncAudioSyncDelay
 import com.kododake.aabrowser.web.updateDrmL3Enforcer
 
 object SettingsCallbacksFactory {
@@ -43,6 +44,12 @@ object SettingsCallbacksFactory {
                 val enabled = BrowserPreferences.isDrmL3EnforcerEnabled(activity)
                 tabManager.browserTabs.forEach { tab ->
                     tab.webView.updateDrmL3Enforcer(enabled)
+                }
+            },
+            onAudioSyncChanged = {
+                val delayMs = BrowserPreferences.getAudioSyncDelayMs(activity)
+                tabManager.browserTabs.forEach { tab ->
+                    tab.webView.syncAudioSyncDelay(delayMs)
                 }
             },
             onUserAgentChanged = {

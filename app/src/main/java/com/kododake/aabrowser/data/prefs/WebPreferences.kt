@@ -23,6 +23,10 @@ object WebPreferences {
     const val PREFS_NAME = "browser_prefs"
     private const val KEY_DRM_L3_ENFORCER = "drm_l3_enforcer_enabled"
     const val DEFAULT_DRM_L3_ENFORCER = true
+    private const val KEY_AUDIO_SYNC_DELAY_MS = "audio_sync_delay_ms"
+    const val DEFAULT_AUDIO_SYNC_DELAY_MS = 0
+    const val MIN_AUDIO_SYNC_DELAY_MS = 0
+    const val MAX_AUDIO_SYNC_DELAY_MS = 1000
 
     fun isDrmL3EnforcerEnabled(context: Context): Boolean {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -33,6 +37,19 @@ object WebPreferences {
         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
             .edit()
             .putBoolean(KEY_DRM_L3_ENFORCER, enabled)
+            .apply()
+    }
+
+    fun getAudioSyncDelayMs(context: Context): Int {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getInt(KEY_AUDIO_SYNC_DELAY_MS, DEFAULT_AUDIO_SYNC_DELAY_MS)
+            .coerceIn(MIN_AUDIO_SYNC_DELAY_MS, MAX_AUDIO_SYNC_DELAY_MS)
+    }
+
+    fun setAudioSyncDelayMs(context: Context, delayMs: Int) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit()
+            .putInt(KEY_AUDIO_SYNC_DELAY_MS, delayMs.coerceIn(MIN_AUDIO_SYNC_DELAY_MS, MAX_AUDIO_SYNC_DELAY_MS))
             .apply()
     }
 }

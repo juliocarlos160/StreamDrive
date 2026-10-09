@@ -50,7 +50,8 @@ fun configureWebView(
     callbacks: BrowserCallbacks = BrowserCallbacks(),
     useDesktopMode: Boolean = false,
     userAgentProfile: UserAgentProfile = UserAgentProfile.ANDROID_CHROME,
-    enableDrmL3Enforcer: Boolean = true
+    enableDrmL3Enforcer: Boolean = true,
+    audioSyncDelayMs: Int = 0
 ) {
     with(webView) {
         setBackgroundColor(Color.TRANSPARENT)
@@ -59,6 +60,8 @@ fun configureWebView(
             val handler = WebViewCompat.addDocumentStartJavaScript(this, WebScripts.DRM_L3_ENFORCER_JS, setOf("*"))
             setTag(R.id.webview_drm_l3_script_handler_tag, handler)
         }
+
+        syncAudioSyncDelay(audioSyncDelayMs)
 
         isHorizontalScrollBarEnabled = false
         isVerticalScrollBarEnabled = true
@@ -246,3 +249,26 @@ fun WebView.updateDrmL3Enforcer(enabled: Boolean, reload: Boolean = true) {
     }
 }
 
+/**
+ * Applies the audio delay used to compensate for Android Auto's video latency.
+ *
+ * The document-start script is re-registered when the value changes, so new pages and frames
+ * get the new delay; the page already open is updated live without reloading the video.
+ */
+fun WebView.syncAudioSyncDelay(delayMs: Int) {
+    val value = delayMs.coerceAtLeast(0)
+    if (WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
+        val currentValue = getTag(R.id.webview_audio_sync_delay_tag) as? Int
+        val existingHandler = getTag(R.id.webview_audio_sync_script_handler_tag) as? ScriptHandler
+        if (existingHandler == null || currentValue != value) {
+            existingHandler?.remove()
+            val handler = WebViewCompat.addDocumentStartJavaScript(this, WebScripts.audioSyncJs(value), setOf("*"))
+            setTag(R.id.webview_audio_sync_script_handler_tag, handler)
+            setTag(R.id.webview_audio_sync_delay_tag, value)
+        }
+        evaluateJavascript(WebScripts.audioSyncSetJs(value), null)
+    } else {
+        // Without document-start scripts, inject into the loaded page; the script updates itself if already present.
+        evaluateJavascript(WebScripts.audioSyncJs(value), null)
+    }
+}

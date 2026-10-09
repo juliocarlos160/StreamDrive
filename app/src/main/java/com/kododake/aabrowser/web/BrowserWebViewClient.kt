@@ -79,6 +79,7 @@ class BrowserWebViewClient(
                 view.evaluateJavascript(WebScripts.DRM_L3_ENFORCER_JS, null)
             }
         }
+        view.syncAudioSyncDelay(BrowserPreferences.getAudioSyncDelayMs(view.context))
         if (!WebViewFeature.isFeatureSupported(WebViewFeature.NAVIGATION_LISTENER)) {
             url?.let(callbacks.onUrlChange)
         }

@@ -51,6 +51,7 @@ import com.kododake.aabrowser.ui.compose.components.ExpressiveDragHandle
 import com.kododake.aabrowser.ui.compose.components.ExpressiveSheetHeader
 import com.kododake.aabrowser.ui.compose.components.bouncyClickable
 import com.kododake.aabrowser.ui.compose.screens.settings.sections.AppearanceSettingsComposable
+import com.kododake.aabrowser.ui.compose.screens.settings.sections.AudioSyncSettingsComposable
 import com.kododake.aabrowser.ui.compose.screens.settings.sections.DisplayScaleSettingsComposable
 import com.kododake.aabrowser.ui.compose.screens.settings.sections.InAppControlsComposable
 import com.kododake.aabrowser.ui.compose.screens.settings.sections.NavigationSettingsComposable
@@ -170,6 +171,13 @@ fun SettingsScreen(
                     DisplayScaleSettingsComposable(
                         context = context,
                         onScaleChanged = callbacks.onScaleChanged
+                    )
+
+                    Spacer(Modifier.height(24.dp))
+
+                    AudioSyncSettingsComposable(
+                        context = context,
+                        onAudioSyncChanged = callbacks.onAudioSyncChanged
                     )
 
                     Spacer(Modifier.height(24.dp))

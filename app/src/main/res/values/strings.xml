@@ -78,6 +78,13 @@
     <string name="settings_display_scale">Display scale</string>
     <string name="settings_display_scale_description">Scale the browser UI and page content together. Applying a new value reloads the screen.</string>
     <string name="settings_scale_option">%1$d%%</string>
+    <string name="settings_audio_sync">Audio sync</string>
+    <string name="settings_audio_sync_delay">Audio delay</string>
+    <string name="settings_audio_sync_description">Android Auto shows video on the car screen later than its audio. Delay the audio until voices match lip movement. Works on YouTube and most sites, but not on DRM-protected video such as Netflix.</string>
+    <string name="settings_audio_sync_value">+%1$d ms</string>
+    <string name="settings_audio_sync_off">Off</string>
+    <string name="settings_audio_sync_step_down">−%1$d ms</string>
+    <string name="settings_audio_sync_step_up">+%1$d ms</string>
     <string name="settings_scale_custom_hint">Custom scale percent</string>
     <string name="settings_scale_custom_helper">Choose any value from %1$d%% to %2$d%%.</string>
     <string name="settings_home_page">Home page</string>
