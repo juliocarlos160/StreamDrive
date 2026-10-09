@@ -6,6 +6,7 @@
     <item name="webview_drm_l3_script_handler_tag" type="id" />
     <item name="webview_audio_sync_script_handler_tag" type="id" />
     <item name="webview_audio_sync_delay_tag" type="id" />
+    <item name="webview_streaming_identity_tag" type="id" />
     <item name="settingsHeaderTitle" type="id" />
     <item name="buttonSettingsBack" type="id" />
     <item name="userAgentTitle" type="id" />

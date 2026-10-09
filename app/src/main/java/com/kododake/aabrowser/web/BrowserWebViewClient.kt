@@ -43,6 +43,10 @@ class BrowserWebViewClient(
         if (CleartextNavigationHandler.handleCleartextIfNeeded(view, uri, callbacks, onPageStart = false)) {
             return true
         }
+        if (request.isForMainFrame && StreamingSiteCompat.applyIdentityFor(view, uri)) {
+            view.post { view.loadUrl(uri.toString()) }
+            return true
+        }
         return handleUri(uri)
     }
 
@@ -68,6 +72,12 @@ class BrowserWebViewClient(
             } else if (CleartextNavigationHandler.handleCleartextIfNeeded(view, uri, callbacks, onPageStart = true)) {
                 return
             }
+        }
+
+        // Loads started with loadUrl() skip shouldOverrideUrlLoading, so fix the identity here and reload.
+        if (StreamingSiteCompat.applyIdentityFor(view, uri)) {
+            view.stopLoading()
+            view.post { view.loadUrl(stringUrl) }
         }
     }
 

@@ -81,6 +81,8 @@ object BookmarkUrlFormatter {
             "google.com", "google.co.jp" -> "Google"
             "youtube.com" -> "YouTube"
             "duckduckgo.com" -> "DuckDuckGo"
+            "primevideo.com" -> "Prime Video"
+            "disneyplus.com" -> "Disney+"
             else -> null
         }
         if (mapped != null) {

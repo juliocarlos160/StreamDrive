@@ -35,8 +35,9 @@ object BookmarkPreferences {
     val DEFAULT_BOOKMARK_ENTRIES = listOf(
         BookmarkEntry("https://www.google.com", "Google"),
         BookmarkEntry("https://youtube.com", "YouTube"),
+        BookmarkEntry("https://www.primevideo.com", "Prime Video"),
+        BookmarkEntry("https://www.disneyplus.com", "Disney+"),
         BookmarkEntry("https://duckduckgo.com", "DuckDuckGo"),
-        BookmarkEntry("https://keepandroidopen.org", "Keep Android Open"),
         BookmarkEntry(GAME_BOOKMARK_URL, "Kododake Games")
     )
 
