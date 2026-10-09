@@ -46,6 +46,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Installs next to the official app instead of replacing it.
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(
